@@ -7,21 +7,21 @@ redirect_from:
   - /about.html
 ---
 
-I am a Data Science researcher at **Tsinghua University**. My research focuses on **statistical signal processing**, **robust state estimation**, and **time-varying graphs**, with applications to networked systems and acoustic sensing.
+I am a **PhD Student in Data Science** at **Tsinghua Shenzhen International Graduate School (SIGS), Tsinghua University**, in **Data Science and Information Technology**. I am advised by **Prof. Ercan Engin Kuruoglu**. My research focuses on **graph signal processing and time-varying graphs**, **robust state estimation**, and **statistical signal processing**.
 
 My recent work includes robust Kalman filtering under hybrid Gaussian and heavy-tailed measurement noise, graph-based adaptive learning for drone networks, and efficient speech-enhancement methods for microphone arrays.
 
 Research Interests
 ======
 
+### Graph Signal Processing and Time-Varying Graphs
+I am interested in signal processing and learning on time-varying graphs, including graph-based modeling, filtering, adaptive learning, and distributed inference for networked and multi-agent systems.
+
 ### Robust State Estimation
-I study robust Bayesian filtering and Kalman-type methods for state estimation under non-Gaussian, impulsive, and hybrid measurement noise. A central goal is to build estimators that remain accurate while retaining efficient recursive updates.
+I study robust Bayesian filtering and Kalman-type methods for state estimation under non-Gaussian, impulsive, and hybrid measurement noise. A central goal is to build estimators that remain reliable while retaining efficient recursive updates.
 
-### Graph Signal Processing
-I am interested in signal processing and learning on time-varying graphs, including graph-based modeling, filtering, and adaptive learning for networked and multi-agent systems.
-
-### Acoustic Signal Processing
-My applied work includes microphone-array processing, beamforming, direction-of-arrival estimation, and real-time speech enhancement for resource-constrained devices.
+### Statistical Signal Processing
+My broader interests include statistical modeling, Bayesian inference, and learning for signal processing. I have applied these ideas to acoustic sensing, microphone-array processing, beamforming, direction-of-arrival estimation, and real-time speech enhancement.
 
 Selected Publications
 ======
@@ -39,7 +39,7 @@ Manuscript, **to be submitted**.
 Current & Recent Activities
 ======
 
-- **2026** — Research on time-varying graphs and graph-based adaptive learning for drone networks at Tsinghua University.
+- **2026–Present** — PhD research in Data Science and Information Technology at Tsinghua SIGS, focusing on time-varying graphs and graph-based adaptive learning for drone networks.
 - **2026** — Paper on robust Kalman filtering for additive Gaussian-Student's t noise presented at ICASSP 2026.
 - **2025–2026** — Algorithm Engineering Intern at Shokz, working on microphone-array beamforming and real-time speech enhancement.
 
