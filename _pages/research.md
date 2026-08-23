@@ -5,12 +5,19 @@ permalink: /research/
 author_profile: true
 ---
 
-My research lies at the intersection of **statistical signal processing**, **state estimation**, and **graph-based learning**. I am particularly interested in methods that remain reliable under model mismatch, non-Gaussian uncertainty, and changing network structure.
+I am a **PhD Student in Data Science** at **Tsinghua Shenzhen International Graduate School (SIGS), Tsinghua University**, working in **Data Science and Information Technology** under the supervision of **Prof. Ercan Engin Kuruoglu**. My research lies at the intersection of **graph signal processing**, **robust state estimation**, and **statistical signal processing**.
+
+Graph Signal Processing and Time-Varying Graphs
+======
+
+My current PhD research focuses on **time-varying graph models** and **graph-based adaptive learning for drone networks**. I am interested in how changing graph structure can represent interactions among distributed agents and how graph-domain information can support filtering, learning, anomaly detection, and decision making in dynamic networks.
+
+More broadly, I am interested in combining model-based signal processing with data-driven learning for networked and multi-agent systems.
 
 Robust State Estimation
 ======
 
-A major part of my work concerns robust recursive estimation when measurements contain both persistent Gaussian background noise and impulsive disturbances.
+A major part of my previous and continuing work concerns robust recursive estimation when measurements contain persistent Gaussian background noise together with impulsive or heavy-tailed disturbances.
 
 ### Additive Gaussian-Student's t filtering
 I developed a robust Kalman-filtering approach that explicitly models measurement noise as the sum of Gaussian and Student's t components. This work appeared at **ICASSP 2026**.
@@ -22,25 +29,19 @@ I am extending this idea to a broader **additive Gaussian-Gaussian scale mixture
 
 [Publication](/publication/robust-kalman-filters-aggsm/) · [Code](https://github.com/jgr2021/RKF-AGGSM)
 
-Graph Signal Processing and Time-Varying Graphs
+Statistical Signal Processing
 ======
 
-My current research direction includes **time-varying graph models** and **graph-based adaptive learning for drone networks**. I am interested in how graph structure can be used to represent interactions among distributed agents and how graph-domain information can support filtering, learning, and anomaly-aware decision making in dynamic networks.
+My broader interests include statistical modeling, Bayesian inference, and learning for signal processing. I am especially interested in methods that remain reliable under model mismatch, non-Gaussian uncertainty, and changing network structure.
 
-This direction builds on my broader interest in combining model-based signal processing with learning methods for networked systems.
-
-Acoustic Signal Processing
-======
-
-I have also worked on practical acoustic signal processing for microphone arrays and wearable devices. During an internship at **Shokz**, I studied beamforming and implemented real-time speech-enhancement pipelines in waveform and time-frequency domains.
-
-A related patent application studies a lightweight real-time speech-enhancement method for virtual microphone arrays using sparse Bayesian direction estimation, fixed-parameter beamforming, and spectral-domain noise reduction.
+Acoustic signal processing is one application area in which I have used these ideas. During an internship at **Shokz**, I studied microphone-array beamforming and implemented real-time speech-enhancement pipelines in waveform and time-frequency domains. A related patent application studies lightweight real-time speech enhancement for virtual microphone arrays using sparse Bayesian direction estimation, fixed-parameter beamforming, and spectral-domain noise reduction.
 
 Research Themes
 ======
 
-- Robust Bayesian filtering and Kalman-type estimation
-- Heavy-tailed and hybrid noise modeling
 - Graph signal processing and time-varying graphs
+- Robust Bayesian filtering and Kalman-type estimation
+- Statistical signal processing and Bayesian inference
+- Heavy-tailed and hybrid noise modeling
 - Distributed and multi-agent learning
 - Microphone arrays, beamforming, and speech enhancement
