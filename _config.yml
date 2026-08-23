@@ -4,7 +4,7 @@ site_theme               : "default"
 title                    : "Gurui Jin"
 title_separator          : "-"
 name                     : &name "Gurui Jin"
-description              : &description "Academic homepage of Gurui Jin, with research on robust state estimation, graph signal processing, and acoustic signal processing."
+description              : &description "Academic homepage of Gurui Jin, a PhD student in Data Science at Tsinghua SIGS working on graph signal processing, time-varying graphs, robust state estimation, and statistical signal processing."
 url                      : "https://jgr2021.github.io"
 baseurl                  : ""
 repository               : "jgr2021/jgr2021.github.io"
@@ -14,11 +14,11 @@ author:
   avatar           :
   name             : "Gurui Jin"
   pronouns         :
-  bio              : "Data Science researcher working on statistical signal processing and time-varying graphs."
+  bio              : "PhD Student in Data Science working on graph signal processing, time-varying graphs, robust state estimation, and statistical signal processing."
   location         :
-  employer         : "Tsinghua University"
+  employer         : "Tsinghua Shenzhen International Graduate School (SIGS)"
   uri              :
-  email            : "jgr@mails.tsinghua.edu.cn"
+  email            : "jgr23@mails.tsinghua.edu.cn"
 
   # Academic websites
   academia         :
@@ -127,7 +127,7 @@ facebook:
   app_id                 :
   publisher              :
 og_image                 :
-og_description           : "Research in robust state estimation, graph signal processing, and acoustic signal processing."
+og_description           : "Research in graph signal processing, time-varying graphs, robust state estimation, and statistical signal processing."
 social:
   type                   : Person
   name                   : "Gurui Jin"
@@ -176,7 +176,7 @@ keep_files:
   - .git
   - .svn
 encoding: "utf-8"
-markdown_ext: "markdown,mkdown,mkdn,mkd,md"
+markdown_ext: "markdown,mkdown,mkd,md"
 
 # Conversion
 markdown: kramdown
