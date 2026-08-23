@@ -12,6 +12,13 @@ redirect_from:
 Education
 ======
 
+**Tsinghua Shenzhen International Graduate School (SIGS), Tsinghua University** — PhD Student in Data Science, 2026–Present  
+Area: Data Science and Information Technology  
+Research: Time-Varying Graphs  
+Supervisor: Prof. Ercan Engin Kuruoglu
+
+- Contributed to the drafting and revision of an NSFC grant proposal on graph-based adaptive learning for drone networks.
+
 **Tsinghua University** — M.S. in Data Science, 2023.09–2026.06  
 Research: State Estimation and Acoustic Sensing  
 Supervisor: Prof. Xiao-Ping Zhang  
@@ -20,15 +27,6 @@ GPA: 3.70/4.0
 **Southeast University** — B.S. in Computer Science, 2019.09–2023.06  
 Research: Software Development and Machine Learning  
 GPA: 3.57/4.0
-
-Research Position
-======
-
-**Tsinghua University** — Pre-doctoral Research Fellow in Data Science, 2026.01–Present  
-Research direction: Time-Varying Graphs  
-Supervisor: Prof. Ercan Engin Kuruoglu
-
-- Contributed to the drafting and revision of an NSFC grant proposal on graph-based adaptive learning for drone networks.
 
 Research Publications
 ======
@@ -98,3 +96,9 @@ Skills
 - **Programming:** Python, MATLAB, C++, Java
 - **Languages:** Chinese (native), English (fluent; CET-6: 570)
 - **Professional membership:** IEEE Student Member, IEEE Signal Processing Society
+
+Contact
+======
+
+- **Email:** jgr23@mails.tsinghua.edu.cn
+- **GitHub:** [jgr2021](https://github.com/jgr2021)
