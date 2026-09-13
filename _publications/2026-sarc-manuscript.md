@@ -10,7 +10,7 @@ codeurl: "https://github.com/jgr2021/SARC"
 excerpt: "Lightweight multichannel speech enhancement combining a unit-response analytic estimate with spatial-residual-guided neural correction."
 ---
 
-**Authors:** Gurui Jin, Xiao-Ping Zhang, Le Xiao, Yue Wang
+**Authors:** Gurui Jin, Xiao-Ping Zhang, Le Xiao, Yue Wang, Zhenyu Liu
 
 SARC combines analytic spatial filtering with neural correction for lightweight multichannel speech enhancement. A learned channel-weighting matrix forms a unit-response estimate from RTF-aligned microphone signals. Target-canceling spatial residuals guide a compact correction network in suppressing the remaining interference.
 
