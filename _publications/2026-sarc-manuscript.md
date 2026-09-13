@@ -1,7 +1,7 @@
 ---
 title: "SARC: Structured Analytic-Residual Correction for Lightweight Multichannel Speech Enhancement"
 collection: publications
-category: manuscripts
+category: conferences
 permalink: /publication/sarc/
 year: 2026
 venue: "Conference manuscript"
