@@ -36,6 +36,13 @@ My broader interests include statistical modeling, Bayesian inference, and learn
 
 Acoustic signal processing is one application area in which I have used these ideas. During an internship at **Shokz**, I studied microphone-array beamforming and implemented real-time speech-enhancement pipelines in waveform and time-frequency domains. A related patent application studies lightweight real-time speech enhancement for virtual microphone arrays using sparse Bayesian direction estimation, fixed-parameter beamforming, and spectral-domain noise reduction.
 
+### Structured Analytic-Residual Correction (SARC)
+SARC is a lightweight multichannel speech-enhancement method that combines a unit-response analytic estimate with spatial-residual-guided neural correction. It retains target-canceling channel differences to help a compact correction network suppress interference remaining in the analytic estimate.
+
+**Status:** Submitted to ICASSP 2027.
+
+[Publication](/publication/sarc/) · [Code](https://github.com/jgr2021/SARC)
+
 Research Themes
 ======
 
