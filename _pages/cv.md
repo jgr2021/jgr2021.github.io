@@ -39,6 +39,12 @@ Research Publications
 - Reported a 12.27% RMSE reduction over the standard Kalman filter in target-tracking simulations.
 - [Publication](/publication/robust-kalman-filter-agst/) · [Code](https://github.com/jgr2021/RKF-AGST)
 
+### Conference Manuscript
+
+**Gurui Jin**, Xiao-Ping Zhang, Le Xiao, Yue Wang, “SARC: Structured Analytic-Residual Correction for Lightweight Multichannel Speech Enhancement.” **Submitted to ICASSP 2027.**
+
+- [Code](https://github.com/jgr2021/SARC)
+
 ### Journal Manuscript
 
 **Gurui Jin**, Pengcheng Hao, Zhenyu Liu, Xiao-Ping Zhang, Ercan E. Kuruoglu, “Robust Kalman Filters For Additive Gaussian-GSM Distributions,” manuscript, 2026. **To be submitted.**
