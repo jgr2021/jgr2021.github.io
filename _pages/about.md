@@ -26,6 +26,11 @@ My broader interests include statistical modeling, Bayesian inference, and learn
 Selected Publications
 ======
 
+**SARC: Structured Analytic-Residual Correction for Lightweight Multichannel Speech Enhancement**  
+Gurui Jin, Xiao-Ping Zhang, Le Xiao, Yue Wang  
+**Submitted to ICASSP 2027.**  
+[Publication](/publication/sarc/) · [Code](https://github.com/jgr2021/SARC)
+
 **Robust Kalman Filter For Additive Gaussian-Student's t Distribution**  
 Gurui Jin, Pengcheng Hao, Zhenyu Liu, Xiao-Ping Zhang, Ercan E. Kuruoglu  
 *2026 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)*, 2026.  
@@ -39,6 +44,7 @@ Manuscript, **to be submitted**.
 Current & Recent Activities
 ======
 
+- **2026** — SARC, a lightweight multichannel speech-enhancement method, submitted to ICASSP 2027.
 - **2026–Present** — PhD research in Data Science and Information Technology at Tsinghua SIGS, focusing on time-varying graphs and graph-based adaptive learning for drone networks.
 - **2026** — Paper on robust Kalman filtering for additive Gaussian-Student's t noise presented at ICASSP 2026.
 - **2025–2026** — Algorithm Engineering Intern at Shokz, working on microphone-array beamforming and real-time speech enhancement.
