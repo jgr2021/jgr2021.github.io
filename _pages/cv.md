@@ -43,7 +43,7 @@ Research Publications
 
 **Gurui Jin**, Xiao-Ping Zhang, Le Xiao, Yue Wang, “SARC: Structured Analytic-Residual Correction for Lightweight Multichannel Speech Enhancement.” **Submitted to ICASSP 2027.**
 
-- [Code](https://github.com/jgr2021/SARC)
+- [Publication](/publication/sarc/) · [Code](https://github.com/jgr2021/SARC)
 
 ### Journal Manuscript
 
