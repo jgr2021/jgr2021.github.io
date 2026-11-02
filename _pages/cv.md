@@ -45,13 +45,18 @@ Research Publications
 
 - [Publication](/publication/sarc/) · [Code](https://github.com/jgr2021/SARC)
 
-### Journal Manuscript
+### Journal Manuscripts
 
 **Gurui Jin**, Pengcheng Hao, Zhenyu Liu, Xiao-Ping Zhang, Ercan E. Kuruoglu, “Robust Kalman Filters For Additive Gaussian-GSM Distributions,” manuscript, 2026. **To be submitted.**
 
 - Developed a unified robust Kalman-filtering framework for additive Gaussian-GSM measurement noise.
 - Introduced a variance-offset formulation and MAP / LA-NM estimators for latent-scale inference.
 - [Publication](/publication/robust-kalman-filters-aggsm/) · [Code](https://github.com/jgr2021/RKF-AGGSM)
+
+**Gurui Jin**, Ercan E. Kuruoğlu, “Zero-State Edge-Distribution Recursion for Dynamic Graph and Spectral Estimation,” manuscript in preparation, 2026. **Planned submission to IEEE Signal Processing Letters (SPL).**
+
+- Recursive estimation of edge existence and strength from dynamic node signals, with graph and spectral outputs.
+- [Publication](/publication/theta-u-spl/) · [English PDF](/files/theta-u-spl/Theta_U_SPL_EN.pdf) · [中文稿](/files/theta-u-spl/Theta_U_SPL_ZH.pdf)
 
 Patent Application
 ======
