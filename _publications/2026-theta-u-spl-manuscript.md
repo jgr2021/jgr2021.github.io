@@ -1,5 +1,5 @@
 ---
-title: "Zero-State Edge-Distribution Recursion for Dynamic Graph and Spectral Estimation"
+title: "Recursive Probabilistic Estimation of Dynamic Graph Edge Weights from Node Signals"
 collection: publications
 category: manuscripts
 permalink: /publication/theta-u-spl/
@@ -7,12 +7,12 @@ year: 2026
 venue: "Manuscript in preparation"
 status: "Planned submission to IEEE Signal Processing Letters (SPL)"
 paperurl: "https://jgr2021.github.io/files/theta-u-spl/Theta_U_SPL_EN.pdf"
-excerpt: "Recursive edge-distribution estimation with an explicit zero state for dynamic graph and spectral estimation."
+excerpt: "Recursive estimation of dynamic graph edge weights from observed node signals."
 ---
 
 **Authors:** Gurui Jin and Ercan E. Kuruoğlu
 
-This manuscript studies recursive estimation of edge existence and strength from dynamic node signals. An explicit zero state and positive amplitude grid are updated through Markov prediction and mean-field inference; support and weight estimates yield a graph Laplacian and its full spectrum.
+This manuscript studies recursive estimation of edge existence and strength from dynamic node signals. Edge distributions are updated through Markov prediction and mean-field inference. The manuscript includes synthetic graph-learning comparisons and a simplified UAV altitude-coordination experiment. Spectral quantities are derived by full eigendecomposition.
 
 **Status:** Manuscript in preparation; planned submission to *IEEE Signal Processing Letters (SPL)*.
 

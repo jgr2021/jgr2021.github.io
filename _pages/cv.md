@@ -53,7 +53,7 @@ Research Publications
 - Introduced a variance-offset formulation and MAP / LA-NM estimators for latent-scale inference.
 - [Publication](/publication/robust-kalman-filters-aggsm/) · [Code](https://github.com/jgr2021/RKF-AGGSM)
 
-**Gurui Jin**, Ercan E. Kuruoğlu, “Zero-State Edge-Distribution Recursion for Dynamic Graph and Spectral Estimation,” manuscript in preparation, 2026. **Planned submission to IEEE Signal Processing Letters (SPL).**
+**Gurui Jin**, Ercan E. Kuruoğlu, “Recursive Probabilistic Estimation of Dynamic Graph Edge Weights from Node Signals,” manuscript in preparation, 2026. **Planned submission to IEEE Signal Processing Letters (SPL).**
 
 - Recursive estimation of edge existence and strength from dynamic node signals, with graph and spectral outputs.
 - [Publication](/publication/theta-u-spl/) · [English PDF](/files/theta-u-spl/Theta_U_SPL_EN.pdf) · [中文稿](/files/theta-u-spl/Theta_U_SPL_ZH.pdf)

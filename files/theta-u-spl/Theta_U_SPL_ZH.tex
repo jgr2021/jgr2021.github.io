@@ -4,15 +4,16 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,booktabs,url,cite,tikz}
 \usetikzlibrary{arrows.meta,positioning}
+\usepackage{algorithm,algpseudocode}
 \usepackage[hidelinks]{hyperref}
 \newcommand{\T}{\mathsf T}
 \begin{document}
-\title{含零状态的边分布递推：从动态节点信号到图结构与图谱}
+\title{基于节点信号的动态图边权概率递推估计}
 \author{Gurui~Jin and Ercan~E.~Kuruo\u{g}lu%
 \thanks{Gurui Jin and Ercan E. Kuruo\u{g}lu are with Shenzhen International Graduate School, Tsinghua University, Shenzhen, China (e-mail: jgr23@mails.tsinghua.edu.cn; kuruoglu@sz.tsinghua.edu.cn).}}
 \maketitle
 \begin{abstract}
-动态图跟踪需要同时估计边是否存在及其作用强度。本文研究一种含零状态的有限边权分布递推方法：依据节点动态构造边权回归，通过马尔可夫预测和均值场更新维护每条边的概率，再由支持判定及正幅度估计构造拉普拉斯矩阵，输出完整图谱。在24条合成条件轨迹、1,728个时间块上，相比已有稀疏EKF代码的硬阈值适配，边权和特征值平均相对误差分别由0.15134和0.08741降至0.12163和0.06527，真实连通块的误分裂由76/1068降至8/1068。该估计质量改善伴随更高计算成本及更大的事件块增量误差。本文以同一方法的结构、权重和谱输出检验这一取舍。
+动态图跟踪需要同时估计边是否存在及其作用强度。本文研究一种从节点信号估计动态图边权的概率递推方法：依据节点动态构造边权回归，通过马尔可夫预测和均值场更新维护每条边的概率，再由支持判定及正幅度估计构造拉普拉斯矩阵，输出完整图谱。在24条合成条件轨迹、1,728个时间块上，相比已有稀疏EKF代码的硬阈值适配，边权和特征值平均相对误差分别由0.15134和0.08741降至0.12163和0.06527，真实连通块的误分裂由76/1068降至8/1068。该估计质量改善伴随更高计算成本及更大的事件块增量误差。本文以同一方法的结构、权重和谱输出检验这一取舍。
 \end{abstract}
 \begin{IEEEkeywords}
 动态图学习，边权估计，概率递推，均值场近似，图谱。
@@ -22,7 +23,7 @@
 
 Natali等人研究在线图学习的时变优化\cite{natali}；Dabush等人以边权为隐状态、图滤波信号为观测，提出稀疏EKF\cite{dabush}。图拉普拉斯的边权参数化及一阶图滤波的线性特例属于已有研究基础。本文采用的均值场坐标更新也基于标准变分推断\cite{blei}。
 
-\textbf{本文的中心设计是用同一条递推边分布保留“零权重”和“不同正幅度”的概率，并将其用于支持判定及权重估计。}方法由有限状态预测、因子化似然更新和支持读出组成。零状态提供边存在性的明确表示；正网格允许非二值边权；因子化表示控制联合状态数量。实验检验这套设计相对于文献来源基线的估计质量与成本，贡献集中在具体估计器及其任务表现，而非将回归恒等式或均值场本身作为新理论。
+\textbf{本文的中心设计是从节点状态的连续观测构造边权似然，递推维护每条边的离散概率分布，再由该分布估计连接及其强度。}方法由马尔可夫预测、均值场更新和点估计读出组成。用分布而非单个数值传递上一时间块的信息，是本文估计器的表示方式。实验评价这套估计器相对于文献来源基线的误差、结构识别和计算成本。
 
 \section{节点观测如何提供边权信息}
 \subsection{未知量、观测与模型依据}
@@ -38,14 +39,14 @@ $n$个节点上的标量信号为$s_{t,k}\in\mathbb R^n$。$t$表示图更新的
 \end{equation}
 其节点形式是$s_{i,k+1}=a s_{i,k}+u_{i,k}-\eta\sum_j\theta_{ij}(s_{i,k}-s_{j,k})+\epsilon_{i,k}$：自身演化与已知输入之外，邻居通过信号差产生作用。这是离散扩散型图滤波\cite{shuman}，适用于信号满足这种交互规律的系统。实验同步观测全部$s$，已知$a,\eta,u,\sigma$；过程扰动$\epsilon\sim\mathcal N(0,\sigma^2I)$在各次转移间独立，且独立于当前状态。没有额外传感器测量误差。
 
-可用房间换热作类比：节点信号是各房间温度，边权表示房间间的换热强度，$as+u$给出暂不计房间间换热时的下一步温度。实际温度与此预测的差异包含房间之间的作用及扰动。因此，多次温度变化提供关于换热强度的信息。该类比用于解释式\eqref{eq:dynamic}，不将合成数据视为实测温度或无人机数据。
+可用房间换热作类比：节点信号是各房间温度，边权表示房间间的换热强度，$as+u$给出暂不计房间间换热时的下一步温度。实际温度与此预测的差异包含房间之间的作用及扰动。因此，多次温度变化提供关于换热强度的信息。
 
 \subsection{残差的意义与逐步推导}
 定义由实际观测计算的残差
 \begin{equation}
  r_{t,k}=a s_{t,k}+u_{t,k}-s_{t,k+1}.\label{eq:r}
 \end{equation}
-$r$是忽略图作用的已知预测与观测到的下一状态之差；它是估计器的回归响应，而非新传感器或纯噪声。为简洁省略$t,k$，代入式\eqref{eq:dynamic}得
+式\eqref{eq:r}中，$s_{t,k}$是当前观测的节点信号向量；$a$是已知自身演化系数，$as_{t,k}$表示仅考虑自身演化的下一步预测；$u_{t,k}$是这一采样间隔内的已知外部输入；$s_{t,k+1}$是下一时刻实际观测。先将前两项相加得到忽略邻居作用的预测，再减去实际观测，得到$r_{t,k}$。例如单个节点的当前值为1、$a=0.9$、输入为0.02、下一观测为0.82，则残差为$0.9\times1+0.02-0.82=0.10$。这个差值包含邻居耦合作用及扰动。为简洁省略$t,k$，代入式\eqref{eq:dynamic}得
 \begin{align}
 r&=as+u-[(aI-\eta L)s+u+\epsilon]\notag\\
  &=\eta Ls-\epsilon\notag\\
@@ -54,7 +55,7 @@ r&=as+u-[(aI-\eta L)s+u+\epsilon]\notag\\
 \end{align}
 最后一步使用逐元素恒等式$\operatorname{diag}(\theta)d=\operatorname{diag}(d)\theta$，其中$d=B^\T s$。因此$H$的第$e$列为$\eta b_e(b_e^\T s)$：端点位置乘以端点信号差，再乘耦合系数。给定已观测的$s$后，$H$可计算，式\eqref{eq:derive}对未知$\theta$是线性的。
 
-观测到来前，$s_{k+1}$及$r$受随机扰动和未知边权影响；观测到来后，$r$的数值可直接计算。这与似然中的随机性并不矛盾。反演边权需要观测模型及跨时间信息，并非由任意节点数值直接得到图。
+观测到来前，$s_{k+1}$及$r$受随机扰动和未知边权影响；观测到来后，$r$的数值可直接计算。这与似然中的随机性并不矛盾。反演边权结合上述观测模型与多次状态转移提供的信息。
 
 \subsection{三节点例子与块内堆叠}
 取候选边$(1,2),(1,3),(2,3)$，$s=(1,0,0.5)^\T$，$a=0.9$、$\eta=0.1$、$u=0$。则
@@ -62,7 +63,7 @@ r&=as+u-[(aI-\eta L)s+u+\epsilon]\notag\\
  B=\begin{bmatrix}1&1&0\\-1&0&1\\0&-1&-1\end{bmatrix},\quad
  H=\begin{bmatrix}.1&.05&0\\-.1&0&-.05\\0&-.05&.05\end{bmatrix}.
 \end{equation}\endgroup
-例如第二列是$0.1(1,0,-1)^\T(1-0.5)$。用示意真值$\theta=(0.8,0.5,0)^\T$、$\epsilon=0$正向生成，得到$H\theta=(.105,-.08,-.025)^\T$及$s_{k+1}=(.795,.08,.475)^\T$。反过来，观测者用$0.9s-s_{k+1}$算得同一个$r$，但并不知道生成时的$\theta$。这验证了代入关系，不代表一次观测即可唯一识别三条边。
+例如第二列是$0.1(1,0,-1)^\T(1-0.5)$。用示意真值$\theta=(0.8,0.5,0)^\T$、$\epsilon=0$正向生成，得到$H\theta=(.105,-.08,-.025)^\T$及$s_{k+1}=(.795,.08,.475)^\T$。反过来，观测者用$0.9s-s_{k+1}$算得同一个$r$，但并不知道生成时的$\theta$。继续收集块内观测，可得到关于同一组边权的更多方程。
 
 块内保持同一个$\theta_t$，收集$K$次转移得到$K$组方程。“堆叠”是将这些方程上下排列，而非求平均：
 \begin{equation}
@@ -71,9 +72,9 @@ r&=as+u-[(aI-\eta L)s+u+\epsilon]\notag\\
 \end{equation}
 每增加一次转移，就增加一组关于同一未知边权的约束。若所有端点信号相同，则$B^\T s=0$、$H=0$，无法从该次变化辨识边权。堆叠后的$H_t$满列秩是无约束无噪声回归唯一解的充分条件；先验无法替代缺失的观测信息。
 
-\section{含零状态的边分布递推方法}
+\section{边权分布的递推估计}
 \subsection{有限分布与时间预测}
-每条边取值$v_j=j/64$，$j=0,\ldots,64$，以$q_{t,e}(j)$表示其近似概率。零状态直接表示不存在的边。时间递推为
+每条边取值$v_j=j/64$，$j=0,\ldots,64$，以$q_{t,e}(j)$表示其近似概率。其中$v_0=0$表示没有边，$v_j>0$表示连接强度。时间递推为
 \begin{equation}
  p^-_{t,e}(j)=\sum_{i=0}^{64}q_{t-1,e}(i)T_{ij}.\label{eq:predict}
 \end{equation}
@@ -104,9 +105,9 @@ $T_{ij}$表示上一块的权重$v_i$转至当前$v_j$的概率。实验固定�
 \displaystyle\frac{\sum_{j=1}^{64}v_jq_{t,e}(j)}{1-q_{t,e}(0)},&q_{t,e}(0)<1/2.
 \end{cases}\label{eq:readout}
 \end{equation}
-该规则先按边存在的概率作二元判定，再估计存在条件下的幅度。例如$q(0)=0.7$时直接输出零，避免以混合平均值留下小正边。它是支持和幅度两步决策，不等同于全图联合MAP或无条件最小均方误差估计。
+该规则先按边存在的概率作二元判定，再估计存在条件下的幅度。例如$q(0)=0.7$时直接输出零，避免以混合平均值留下小正边。该输出先判定连接是否存在，再估计存在时的强度。
 
-随后由式\eqref{eq:lap}计算$\hat L_t$，并作完整特征分解$\hat L_t=\hat U_t\hat\Lambda_t\hat U_t^\T$。递推记忆由$q_{t,e}$携带；$U,\Lambda$是每块估计图的谱输出，本实现使用完整EVD。
+随后由式\eqref{eq:lap}计算$\hat L_t$，并作完整特征分解$\hat L_t=\hat U_t\hat\Lambda_t\hat U_t^\T$。递推状态是$q_{t,e}$；每块的$U,\Lambda$通过完整EVD从点估计图计算，作为派生输出用于谱误差评价。它们不参与边权分布更新。
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}[every node/.style={font=\footnotesize},box/.style={draw,rounded corners,align=center,minimum height=7mm},>=Stealth]
@@ -117,8 +118,25 @@ $T_{ij}$表示上一块的权重$v_i$转至当前$v_j$的概率。实验固定�
 \node[box] (out) at (2.8,-2.0) {支持读出\,$\to\hat\theta_t,\hat U_t,\hat\Lambda_t$};
 \draw[->] (prior)--(pred);\draw[->] (pred)--(upd);\draw[->] (data)--(upd);\draw[->] (upd)--(out);
 \end{tikzpicture}
-\caption{唯一所提方法的预测、观测更新及输出。更新后的边分布传至下一块。}\label{fig:flow}
+\caption{所提估计器的预测、观测更新及输出。更新后的边分布传至下一块。}\label{fig:flow}
 \end{figure}
+
+\begin{algorithm}[t]
+\caption{由节点信号递推估计动态图边权}\label{alg:main}
+\begin{algorithmic}[1]\footnotesize
+\Require 节点观测、已知$u,a,\eta,\sigma$，$B,T$及初始边分布
+\For{每个时间块$t$}
+\State 首块使用初始分布；其余块按式\eqref{eq:predict}预测
+\State 由式\eqref{eq:r}、\eqref{eq:derive}构造$r_t,H_t$及$G_t,h_t$
+\State 以预测分布初始化$q$并计算各边均值
+\For{至多30轮，按固定顺序遍历各边$e$}
+\State 按式\eqref{eq:update}计算、归一化$q_{t,e}$并更新均值
+\State 每轮结束检查概率与均值变化；均$\leq10^{-8}$则停止
+\EndFor
+\State 用式\eqref{eq:readout}输出$\hat\theta_t$，保存$q_t$供下一块使用
+\State 构造$\hat L_t$；完整EVD输出$\hat U_t,\hat\Lambda_t$
+\EndFor
+\end{algorithmic}\end{algorithm}
 
 \subsection{与已有滤波方法的区别}
 本方法和KF共享贝叶斯预测--更新结构，差别在状态分布的表示及更新计算。高斯KF用均值和协方差描述连续状态；本方法保留零点质量及正权重网格概率，使用式\eqref{eq:update}更新。即便过程噪声是高斯的，零状态与非负幅度组成的边权后验也不必是单个高斯。差别不在于当前观测是否非线性：式\eqref{eq:derive}是对边权线性的精确恒等式，无需EKF泰勒展开。文献\cite{dabush}还处理更一般的非线性图滤波。
@@ -140,31 +158,55 @@ E_\lambda(t)&=\frac{\|\hat\lambda_t-\lambda_t\|_2}{\max(\|\lambda_t\|_2,10^{-15}
 
 \subsection{估计质量、变化误差与代价}
 \begin{table}[t]
-\caption{相同观测上的图估计结果。误差及误分裂越小越好，正确分区越多越好。}\label{tab:main}
+\caption{相同观测上的图估计结果。误差及误分裂越小越好，正确分区越多越好；各列最优值加粗。}\label{tab:main}
 \centering\scriptsize\setlength{\tabcolsep}{3pt}
 \begin{tabular}{lrrrr}\toprule
 方法 & $E_\theta$ & $E_\lambda$ & 正确分区 & 误分裂\\\midrule
-所提方法 & .12163 & .06527 & 404/660 & 8/1068\\
+所提方法 & \textbf{.12163} & \textbf{.06527} & 404/660 & 8/1068\\
 稀疏EKF适配 & .15134 & .08741 & 330/660 & 76/1068\\
-ProbSSM平均 & .16894 & .08844 & 2/660 & 0/1068\\
-ProbSSM局部MAP & .19677 & .10135 & 545/660 & 103/1068\\\bottomrule
+ProbSSM平均 & .16894 & .08844 & 2/660 & \textbf{0/1068}\\
+ProbSSM局部MAP & .19677 & .10135 & \textbf{545/660} & 103/1068\\\bottomrule
 \end{tabular}
 \end{table}
 相较稀疏EKF适配，所提方法平均边权误差降低约19.6\%，特征值误差降低约25.3\%，并改善汇总分区结果。ProbSSM局部MAP恢复了更多断开分区，但也产生更多误分裂；其两种读出共享同一推断。ProbSSM是在已使用观测上追加的对照，固定正幅度与多值真边权存在失配，参数未独立优化。
 
-对存在真实支持变化的事件块，所有边的点增量误差先平方平均再开方。所提方法为0.11435，稀疏EKF适配为0.09379；平均估计精度改善并未同时改善突变响应。单线程在线时间包含统计量、推断及完整EVD，平均为9.75和1.04秒/轨迹；初始化、预热、存储和评价不计入，机器非独占。所提方法有14/1728块达到迭代上限。保留这些块计算全部结果。ProbSSM计时来自另一批运行，表中不拼接速度比较。
+对存在真实支持变化的事件块，所有边的点增量误差先平方平均再开方。所提方法为0.11435，稀疏EKF适配为0.09379；平均估计精度改善并未同时改善突变响应。单线程在线时间包含统计量、推断及完整EVD，平均为9.75和1.04秒/轨迹；初始化、预热、存储和评价不计入，机器非独占。所提方法有14/1728块达到迭代上限。保留这些块计算全部结果。
 
 在既有共同谱间隔筛选下，5,517个正单重特征方向的投影误差均值为0.86552（所提）和0.87621（稀疏EKF适配）。筛选依赖真值及原实验全部输出，不覆盖重根子空间；该诊断不足以建立完整$U$的普遍优势。
 
-\section{结论与图谱的任务接口}
-本文用一套含零状态的边分布递推同时估计动态图的支持和幅度，并生成一致的完整谱输出。合成比较显示相对所列稀疏EKF适配更低的平均边权、特征值误差和误分裂率，同时付出更高时间成本及更大的事件增量误差。
+\subsection{无人机高度协同的合成实验}
+考虑6架无人机的高层高度协同，令$s_i=z_i-z_{\rm ref}$为相对30米参考高度的偏差。采用一阶高度响应与邻居一致性反馈\cite{consensus}，在采样间隔$\Delta=0.1$秒下，欧拉离散化给出
+\begin{equation}
+\begin{split}
+s_{i,k+1}&=(1-\kappa\Delta)s_{i,k}+u_{i,k}+\epsilon_{i,k}\\
+&\quad-c\Delta\sum_j\theta_{ij}(s_{i,k}-s_{j,k}).
+\end{split}
+\end{equation}
+取$\kappa=0.5$、$c\Delta=0.8/6$，即式\eqref{eq:dynamic}。$u_i$是已知高度控制增量，边权是有效邻居反馈强度。水平位置由预设航迹生成，每块保持不变；水平距离$d_{ij}$决定$\theta_{ij}=\mathbf1[d_{ij}<35]\exp[-(d_{ij}/25)^2]$，距离单位为米。估计器仅接收节点高度序列、输入及已知参数。
 
-图谱与节点动态的联系来自$L=U\Lambda U^\T$：在块内固定图上，令$z_k=U^\T s_k$，则$z_{k+1}=(aI-\eta\Lambda)z_k+U^\T u_k+U^\T\epsilon_k$。$U$给出协同变化模式，$\Lambda$决定各模式的传播系数。用于无人机网络前，需要明确节点信号及边的物理含义，再以估计图谱、真实图谱和不使用图谱的同成本决策对照检验收益。本文完成图估计层验证，决策闭环为后续实验目标。部分观测、模型失配与相关后验的处理也留待进一步研究。
+固定6个新几何种子720110--720115，每个种子分别使用输入标准差0和0.3，共12条36块轨迹、432块，每块48次转移。两种估计器沿用原参数。两种输入条件共享几何轨迹，3/432个所提方法时间块达到迭代上限并保留。全部节点同步可见，采用理想一阶高度响应。表\ref{tab:uav}给出这项合成模型实验的结果。
+
+\begin{table}[t]\centering\scriptsize
+\caption{无人机高层合成模型：平均相对误差与每块耗时。}\label{tab:uav}
+\setlength{\tabcolsep}{4pt}\begin{tabular}{llrrr}\toprule
+输入标准差 & 方法 & $E_\theta$ & $E_\lambda$ & 毫秒/块\\\midrule
+0 & 所提方法 & \textbf{.33687} & \textbf{.11018} & 2.92\\
+0 & 稀疏EKF适配 & .39423 & .15612 & \textbf{.56}\\
+0.3 & 所提方法 & \textbf{.07065} & \textbf{.02180} & 3.30\\
+0.3 & 稀疏EKF适配 & .09069 & .03621 & \textbf{.59}\\\bottomrule
+\end{tabular}\end{table}
+
+为考察估计模型在决策中的作用，取每块末端的相同高度状态$s$，分别用所提方法、稀疏EKF、无图模型和真实图模型计算下一步控制。统一最小化预测高度偏差与控制代价之和，得到$v=\operatorname{clip}(-\hat F s/2,-1,1)$，其中$\hat F=aI-\eta\hat L$；无图对照取$aI$。在同一真实模型及同一扰动$w$下，评价$J=\|Fs+v+w\|^2+\|v\|^2$。输入标准差0.3时，四者平均$J$依次为0.701610、0.701721、0.745394和0.701512；所提方法相对无图模型降低5.87\%，与稀疏EKF的差距仅0.016\%。输入标准差0时，相应数值为0.011256、0.011258、0.011698和0.011236。此处是同状态单步决策回放，各方法的动作不传入后续观测。$\hat F=\hat U(aI-\eta\hat\Lambda)\hat U^\T$与直接使用$\hat L$等价；该实验检验估计图的用途。
+
+\section{结论}
+本文从连续节点观测构造边权回归，利用马尔可夫预测和均值场更新递推维护边权分布，并输出动态连接及其强度。原合成比较中，相对稀疏EKF适配，平均边权和特征值误差分别降低19.6\%和25.3\%，误分裂由76/1068降至8/1068，同时计算成本和事件块增量误差更高。新增高度协同合成实验也呈现较低的平均估计误差；单步控制代价接近稀疏EKF。结果说明了这套估计器在精度、计算量与动态响应之间的具体取舍。
+
 \begin{thebibliography}{9}
 \bibitem{shuman} D. I. Shuman, S. K. Narang, P. Frossard, A. Ortega, and P. Vandergheynst, ``The emerging field of signal processing on graphs: Extending high-dimensional data analysis to networks and other irregular domains,'' \emph{IEEE Signal Process. Mag.}, vol. 30, no. 3, pp. 83--98, 2013.
 \bibitem{natali} A. Natali, E. Isufi, M. Coutino, and G. Leus, ``Learning time-varying graphs from online data,'' \emph{IEEE Open J. Signal Process.}, 2022, doi: 10.1109/OJSP.2022.3178901.
 \bibitem{dabush} L. Dabush, N. Shlezinger, and T. Routtenberg, ``Sparsity-aware extended Kalman filter for tracking dynamic graphs,'' arXiv:2507.09999, 2025.
 \bibitem{blei} D. M. Blei, A. Kucukelbir, and J. D. McAuliffe, ``Variational inference: A review for statisticians,'' \emph{J. Amer. Statist. Assoc.}, vol. 112, no. 518, pp. 859--877, 2017.
 \bibitem{code} L. Dabush, ``PolyEKF,'' source snapshot cbb1a0a (full commit recorded with the experiments), \texttt{baseline\_prob\_ssm.py} and EKF implementation. [Online]. Available: \url{https://github.com/lital-dgold/PolyEKF}
+\bibitem{consensus} R. Olfati-Saber and R. M. Murray, ``Consensus problems in networks of agents with switching topology and time-delays,'' \emph{IEEE Trans. Autom. Control}, vol. 49, no. 9, pp. 1520--1533, 2004, doi: 10.1109/TAC.2004.834113.
 \end{thebibliography}
 \end{document}
